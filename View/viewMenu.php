@@ -1,3 +1,82 @@
+<?php
+require_once('./Controller/controllerBd.php');
+require_once('./Controller/controllerBase.php');
+require_once('./SQL/sql.php');
+
+/**
+ * Monta a tabela de exibição das informações.
+ */
+function montaMenu() {
+    $aRegistros = execute(getSqlConsultaProdutos());
+    echo '<table class="table">';
+    montaColunas($aRegistros);
+    montaLinhas($aRegistros);
+    echo '</table>';
+}
+
+/**
+ * Monta a consulta de acordo com o necessário.
+ */
+function montaColunas($aRegistros) {
+    echo '<thead>';
+    echo '<tr>';    
+    foreach(getFirstFromArray($aRegistros) as $sColuna => $xValor) {
+        trataTituloColuna($sColuna);    
+    }
+    echo '</tr>';
+    echo '</thead>';
+}
+
+/**
+ * Permite tratar o titulo da coluna.
+ */
+function trataTituloColuna($sColuna) {
+    switch ($sColuna) {
+        case 'codigo':
+            echo "<th scope=\"col\">Código</th>";           
+            break;
+        
+        default:
+        $sColuna = ucfirst($sColuna);
+        echo "<th scope=\"col\">{$sColuna}</th>";
+            break;
+    }
+
+}
+
+/**
+ * Monta as linhas com os valores vindos do banco de dados.
+ * @param Array $aRegistros - Valores do banco.
+ */
+function montaLinhas($aRegistros) {
+    echo '<tbody>';
+    foreach($aRegistros as $aLinha) {
+        echo '<tr>';
+        foreach($aLinha as $sColuna => $xValor) {
+            trataLinha($sColuna, $xValor);
+        }
+        echo '</tr>';
+    }
+    echo '</tbody>';
+}
+
+/**
+ * Possibilita realizar um tratamento para as linhas.
+ */
+function trataLinha($sColuna, $xValor) {
+    switch ($sColuna) {
+        case 'codigo':
+        echo "<th scope=\"row\">{$xValor}</th>";
+            break;
+        
+        default:
+        echo "<td>{$xValor}</td>";
+            break;
+    }
+}
+
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -14,37 +93,7 @@
 <body>
     <h1>Hello, world!</h1>
 
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
-        </tbody>
-    </table>
+    <?php montaMenu() ?>
 
     <!-- Optional JavaScript; choose one of the two! -->
     <!-- Option 1: Bootstrap Bundle with Popper -->
@@ -52,14 +101,3 @@
 </body>
 
 </html>
-
-<?php
-
-function montaMenu() {
-
-    
-
-
-}
-
-?>

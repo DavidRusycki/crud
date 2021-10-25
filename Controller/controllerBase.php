@@ -14,3 +14,14 @@ function iniciaSessao() {
 function validaInicio() {
     validationInicio();
 }
+
+/**
+ * Retorna a primeira posição de um array.
+ * @param Array $aArray
+ * @return Mixed
+ */
+function getFirstFromArray($aArray) {
+    foreach($aArray as $xThing) {
+        return $xThing;
+    }
+}

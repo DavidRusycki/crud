@@ -1,4 +1,7 @@
 <?php
+
+use FFI\Exception;
+
 require_once('./Controller/controllerValidation.php');
 
 const BD_NAME = 'crud';
@@ -21,11 +24,13 @@ function execute($sSql) {
     } catch (\Throwable $e) {
         if (isAdmin()) {
             echo $e;
+            throw new \Exception('error');
         }
         else {
             echo '<h1>Ops! :(</h1>';
             echo '<br/>';
             echo 'Ocorreram problemas internos não esperados.';
+            throw new \Exception();
         }
     }
 }

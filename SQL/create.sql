@@ -8,9 +8,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `produto` (
   `codigo` int(11) NOT NULL,
-  `valor` decimal(6) NOT NULL,
   `nome` varchar(50) NOT NULL,
   `marca` varchar(30) NOT NULL,
+  `valor` decimal(6) NOT NULL,
   `quantidade` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
