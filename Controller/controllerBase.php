@@ -25,3 +25,10 @@ function getFirstFromArray($aArray) {
         return $xThing;
     }
 }
+
+/**
+ * Altera a url do usuário.
+ */
+function alteraUrl() {
+    header("Location: index.php");
+}

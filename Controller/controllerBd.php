@@ -66,3 +66,71 @@ function getConnection() {
 
     return $oConnection;
 }
+
+/**
+ * Função responsável por deletar o registro do código passado.
+ */
+function deletaRegistro($iCodigo) {
+     execute(montaSqlDelete($iCodigo));
+}
+
+/**
+ * Reponsável por retornar o sql para excluir um registro.
+ */
+function montaSqlDelete($iCodigo) {
+    return "delete from produto where codigo = {$iCodigo} ";
+}
+
+function getDadosLinhaFromCodigo($iCodigo) {
+    return execute(getSqlDadosLinhaFromCodigo($iCodigo));
+}
+
+/**
+ * Retorna o sql para pegar os dados de determinado registro.
+ * @return String
+ */
+function getSqlDadosLinhaFromCodigo($iCodigo) {
+    return "SELECT * FROM PRODUTO WHERE CODIGO = {$iCodigo}";
+}
+
+/**
+ * Responsável por salvar as informações da alteração no banco de dados.
+ */
+function salvaAlteracao() {
+    return execute(getSqlUpdate());
+}
+
+/**
+ * Retorna o sql para atualizar um registro.
+ */
+function getSqlUpdate() {
+    $sSql = "
+    UPDATE produto SET 
+    nome       = \"{$_POST['nome'      ]}\",
+    marca      = \"{$_POST['marca'     ]}\",
+    valor      = \"{$_POST['valor'     ]}\",
+    quantidade = \"{$_POST['quantidade']}\"
+    WHERE codigo = {$_POST['codigo']}";
+    return $sSql;
+}
+
+/**
+ * Responsável por salvar as informações da inclusão no banco de dados.
+ */
+function salvaInclusao() {
+    return execute(getSqlInsert());
+}
+
+/**
+ * Retorna o sql para incluir um registro.
+ */
+function getSqlInsert() {
+    $sSql = "
+    INSERT INTO `produto` (`nome`, `valor`, `marca`, `quantidade`) VALUES (
+        \"{$_POST['nome'      ]}\",
+          {$_POST['valor'     ]},
+        \"{$_POST['marca'     ]}\",
+          {$_POST['quantidade']}
+    )";
+    return $sSql;
+}

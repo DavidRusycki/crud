@@ -8,10 +8,20 @@ require_once('./SQL/sql.php');
  */
 function montaMenu() {
     $aRegistros = execute(getSqlConsultaProdutos());
+    adicionaAcoes($aRegistros);
     echo '<table class="table">';
     montaColunas($aRegistros);
     montaLinhas($aRegistros);
     echo '</table>';
+}
+
+/**
+ * Adiciona os botões nas linha das consulta.
+ */
+function adicionaAcoes(&$aRegistros) {
+    foreach($aRegistros as $indice => $aLinha) {
+        $aRegistros[$indice]['acoes'] = 1;
+    }
 }
 
 /**
@@ -53,7 +63,7 @@ function montaLinhas($aRegistros) {
     foreach($aRegistros as $aLinha) {
         echo '<tr>';
         foreach($aLinha as $sColuna => $xValor) {
-            trataLinha($sColuna, $xValor);
+            trataLinha($sColuna, $xValor, $aLinha);
         }
         echo '</tr>';
     }
@@ -63,12 +73,16 @@ function montaLinhas($aRegistros) {
 /**
  * Possibilita realizar um tratamento para as linhas.
  */
-function trataLinha($sColuna, $xValor) {
+function trataLinha($sColuna, $xValor, $aLinha) {
     switch ($sColuna) {
         case 'codigo':
         echo "<th scope=\"row\">{$xValor}</th>";
             break;
         
+        case 'acoes':
+            echo "<td><a href=\"?codigo={$aLinha['codigo']}&acao=2\" class=\"btn btn-primary\">Alterar</a> <a href=\"?codigo={$aLinha['codigo']}&acao=3\" class=\"btn btn-danger\">Deletar</a></td>";
+            break;
+
         default:
         echo "<td>{$xValor}</td>";
             break;
@@ -83,7 +97,7 @@ function trataLinha($sColuna, $xValor) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello, world!</title>
+    <title>Estoque</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -91,7 +105,8 @@ function trataLinha($sColuna, $xValor) {
 </head>
 
 <body>
-    <h1>Hello, world!</h1>
+
+    <a class="btn btn-success" href="index.php?acao=1&codigo=0">Incluir</a>
 
     <?php montaMenu() ?>
 

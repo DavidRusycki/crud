@@ -1,10 +1,18 @@
 <?php
+
+use FFI\Exception;
+
 require_once('./Controller/controllerLogin.php');
 require_once('./Controller/controllerMenu.php');
+require_once('./Controller/controllerBd.php');
+require_once('./Controller/controllerBase.php');
 
 const LOGADO = 'LOGADO';
 const USUARIO = 'USUARIO';
 const ADMIN = 'ADMINISTRATOR';
+const ACAO_DELETAR = 3;
+const ACAO_ALTERAR = 2;
+const ACAO_INCLUIR = 1;
 
 /**
  * Função centralizada para validar o inicio.
@@ -13,6 +21,7 @@ const ADMIN = 'ADMINISTRATOR';
 function validationInicio() {
 
     if (validaUsuarioLogado()) {
+        validaAcoes();
         exibeMenu();
     }
     else {
@@ -22,9 +31,65 @@ function validationInicio() {
 }
 
 /**
+ * Valida se existem ações sendo requisitadas.
+ */
+function validaAcoes() {
+    if (isset($_POST) && count($_POST)) {
+        validaAcoesPost();
+    }
+    else{
+        validaAcoesGet();
+    }
+}
+
+/**
+ * Realiza os tratamentos para ações GET.
+ */
+function validaAcoesGet() {
+    if (isset($_GET['acao']) && isset($_GET['codigo'])) {
+        switch ($_GET['acao']) {
+            case ACAO_INCLUIR:
+                require_once('./Controller/controllerInclusao.php');
+                montaTelaInclusao();
+                break;
+            case ACAO_ALTERAR:
+                require_once('./Controller/controllerAlteracao.php');
+                $_SESSION['codigoRegistro'] = $_GET['codigo'];
+                montaTelaAlteracao();
+                break;
+            case ACAO_DELETAR:
+                deletaRegistro($_GET['codigo']);
+                alteraUrl();
+                break;
+        }
+    }    
+}
+
+/**
+ * Realiza os tratamentos para ações POST.
+ */
+function validaAcoesPost() {
+    if (isset($_GET['acao'])) {
+        switch ($_GET['acao']) {
+            case ACAO_INCLUIR:
+                require_once('./Controller/controllerBd.php');
+                    salvaInclusao();
+                    alteraUrl();
+                break;
+            case ACAO_ALTERAR:
+                require_once('./Controller/controllerBd.php');
+                    salvaAlteracao();
+                    alteraUrl();
+                break;
+        }
+    }  
+}
+
+/**
  * Valida se o usuário da sessão está logado.
  */
 function validaUsuarioLogado() {
+    return true;
     $bLogado = false;
     if (isset($_SESSION[LOGADO]) && $_SESSION[LOGADO] && !empty($_SESSION[USUARIO])) {
         $bLogado = true;
