@@ -10,6 +10,8 @@ require_once('./Controller/controllerBase.php');
 const LOGADO = 'LOGADO';
 const USUARIO = 'USUARIO';
 const ADMIN = 'ADMINISTRATOR';
+const ACAO_LOGOUT  = 5;
+const ACAO_LOGIN   = 4;
 const ACAO_DELETAR = 3;
 const ACAO_ALTERAR = 2;
 const ACAO_INCLUIR = 1;
@@ -25,6 +27,7 @@ function validationInicio() {
         exibeMenu();
     }
     else {
+        validaLogin();
         exibeLogin();
     }
 
@@ -61,6 +64,10 @@ function validaAcoesGet() {
                 deletaRegistro($_GET['codigo']);
                 alteraUrl();
                 break;
+            case ACAO_LOGOUT:
+                logout();
+                alteraUrl();
+                break;
         }
     }    
 }
@@ -86,10 +93,31 @@ function validaAcoesPost() {
 }
 
 /**
+ * Realiza validações para o login.
+ */
+function validaLogin() {
+    if (isset($_POST) && count($_POST) && isset($_GET) && count($_GET)) {
+        validaAcaoLogin();
+    }
+}
+
+/**
+ * Valida o login do usuário.
+ */
+function validaAcaoLogin() {
+    if (isset($_GET['acao']) && isset($_POST['usuario']) && isset($_POST['senha'])) {
+        switch ($_GET['acao']) {
+            case ACAO_LOGIN:
+                verificaLogin();
+                break;
+        }
+    }    
+}
+
+/**
  * Valida se o usuário da sessão está logado.
  */
 function validaUsuarioLogado() {
-    return true;
     $bLogado = false;
     if (isset($_SESSION[LOGADO]) && $_SESSION[LOGADO] && !empty($_SESSION[USUARIO])) {
         $bLogado = true;
@@ -108,4 +136,12 @@ function isAdmin() {
     }
     return true;
     return $bRetorno;
+}
+
+/**
+ * Função para validar os dados de login
+ */
+function validaDados($sUsuario, $sSenha) {
+    require_once('./Controller/controllerBd.php');
+    return execute(getSqlValidaLogin($sUsuario, $sSenha));
 }

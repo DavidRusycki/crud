@@ -63,9 +63,14 @@ function montaCampos() {
             margin-left: 15%;
         }
 
-        .botao {
+        .botao1 {
             margin-top: 10%;
-            margin-left: 35%;
+            margin-left: 20%;
+        }
+
+        .botao2 {
+            margin-top: -26%;
+            margin-left: 55%;
         }
 
         .campo1 {
@@ -86,7 +91,8 @@ function montaCampos() {
 
         <?php montaForm() ?>
 
-        <button class="botao btn btn-success" type="submit" >Incluir</button>
+        <button class="botao1 btn btn-success" type="submit" >Incluir</button>
+        <a class="botao2 btn btn-danger" href="index.php">Cancelar</a>
 
         </form>
 

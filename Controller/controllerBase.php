@@ -5,7 +5,9 @@ require_once('./Controller/controllerValidation.php');
  * Função centralizada para iniciar a sessão.
  */
 function iniciaSessao() {
-    session_start();
+    if (!isset($_SESSION)) {
+        session_start();
+    }
 }
 
 /**
@@ -29,6 +31,6 @@ function getFirstFromArray($aArray) {
 /**
  * Altera a url do usuário.
  */
-function alteraUrl() {
+function alteraUrl() {  
     header("Location: index.php");
 }

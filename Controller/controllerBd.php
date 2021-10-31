@@ -16,7 +16,8 @@ function execute($sSql) {
     try {
         $oPrepare = getConnection()->prepare($sSql);
         $oPrepare->execute();
-        $aResult = trataFetch($oPrepare->fetchAll());
+        // $aResult = trataFetch($oPrepare->fetchAll());
+        $aResult = $oPrepare->fetchAll(PDO::FETCH_ASSOC);
         if (count($aResult) == 0) {
             $aResult = true;
         }
@@ -132,5 +133,15 @@ function getSqlInsert() {
         \"{$_POST['marca'     ]}\",
           {$_POST['quantidade']}
     )";
+    return $sSql;
+}
+
+/**
+ * Retorna o sql de validação de login.
+ */
+function getSqlValidaLogin($sUsuario, $sSenha) {
+    $sSql = "
+        SELECT 1 FROM usuario where nome = \"{$sUsuario}\" and senha = md5('{$sSenha}')
+    ";
     return $sSql;
 }

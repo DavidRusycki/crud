@@ -107,6 +107,7 @@ function trataLinha($sColuna, $xValor, $aLinha) {
 <body>
 
     <a class="btn btn-success" href="index.php?acao=1&codigo=0">Incluir</a>
+    <a class="btn btn-warning right" href="index.php?acao=5&codigo=0">Logout</a>
 
     <?php montaMenu() ?>
 
