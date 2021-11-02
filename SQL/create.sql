@@ -50,4 +50,8 @@ ALTER TABLE `usuario`
 
 -- Insert
 
+<<<<<<< Updated upstream
 insert into usuario (codigo, nome, senha) VALUES (1, 'David', md5('batata'));
+=======
+insert into `usuario` (codigo, nome, senha) VALUES (1, 'David', md5('pastel'));
+>>>>>>> Stashed changes
