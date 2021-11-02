@@ -32,6 +32,7 @@ INSERT INTO `produto` (`nome`, `valor`, `marca`, `quantidade`) VALUES
 ('Pera', 2.39, 'Frutas Dois irmãos', 1800);
 
 -- Criação de tabela.
+
 CREATE TABLE `usuario` (
    `codigo` int(11) NOT NULL,
    `nome` varchar(50) NOT NULL,
@@ -49,4 +50,4 @@ ALTER TABLE `usuario`
 
 -- Insert
 
-insert into usuario (codigo, nome, senha) VALUES (1, 'David', md5('pastel'));
+insert into usuario (codigo, nome, senha) VALUES (1, 'David', md5('batata'));
