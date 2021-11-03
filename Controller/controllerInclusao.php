@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Responsável por montar a tela de alteração.
+ * Responsável por montar a tela de inclusão.
  */
 function montaTelaInclusao() {
     require_once('./View/viewInclusao.php');

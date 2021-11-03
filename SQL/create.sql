@@ -1,3 +1,4 @@
+-- Em caso de erro verificar se as tabelas possuem valores.
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -50,8 +51,4 @@ ALTER TABLE `usuario`
 
 -- Insert
 
-<<<<<<< Updated upstream
-insert into usuario (codigo, nome, senha) VALUES (1, 'David', md5('batata'));
-=======
-insert into `usuario` (codigo, nome, senha) VALUES (1, 'David', md5('pastel'));
->>>>>>> Stashed changes
+insert into `usuario` (codigo, nome, senha) VALUES (1, 'David', md5('batata'));

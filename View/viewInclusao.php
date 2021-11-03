@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Monta o formulário com os valores.
  */
@@ -11,7 +10,6 @@ function montaForm() {
  * Monta os campos.
  */
 function montaCampos() {
-
     echo "<input class=\"campo campo1\" type=\"text\" name=\"nome\" id=\"nome\" placeholder=\"Nome\">";
     echo '<br>';
     echo "<input class=\"campo\" type=\"text\" name=\"marca\" id=\"marca\" placeholder=\"Marca\">";
@@ -20,7 +18,6 @@ function montaCampos() {
     echo '<br>';
     echo "<input class=\"campo\" type=\"number\" name=\"quantidade\" id=\"quantidade\" placeholder=\"Quantidade\">";
     echo '<br>';
-
 }
 
 ?>
@@ -33,9 +30,7 @@ function montaCampos() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inclusão</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
 
     <style>
 
@@ -81,18 +76,16 @@ function montaCampos() {
 </head>
 <body>
     
-    <div class="tampa">
-        
-    </div>
+    <div class="tampa"></div>
 
     <div class="tela">
 
         <form class="formulario" action="index.php?acao=1" method="POST">
 
-        <?php montaForm() ?>
+            <?php montaForm() ?>
 
-        <button class="botao1 btn btn-success" type="submit" >Incluir</button>
-        <a class="botao2 btn btn-danger" href="index.php">Cancelar</a>
+            <button class="botao1 btn btn-success" type="submit" >Incluir</button>
+            <a class="botao2 btn btn-danger" href="index.php">Cancelar</a>
 
         </form>
 

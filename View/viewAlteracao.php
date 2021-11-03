@@ -1,10 +1,10 @@
 <?php
+require_once('./Controller/controllerBd.php');
 
 /**
  * Monta o formulário com os valores.
  */
 function montaForm() {
-    require_once('./Controller/controllerBd.php');
     $aLinha = getFirstFromArray(getDadosLinhaFromCodigo($_SESSION['codigoRegistro']));
     montaCampos($aLinha);
     unset($_SESSION['codigoRegistro']);
@@ -12,9 +12,10 @@ function montaForm() {
 
 /**
  * Monta os campos.
+ * @param Array $aLinha - Array da linha do bando de dados.
+ * @TODO Criar um controller para as views e centralizar os métodos de criação dos campos sendo assim pode ser reutilizado em todas as views que utilizam os campos.
  */
 function montaCampos($aLinha) {
-
     echo "<input class=\"campo1 campo\" type=\"number\" name=\"codigo\" id=\"codigo\" value=\"{$aLinha['codigo']}\">";
     echo '<br>';
     echo "<input class=\"campo\" type=\"text\" name=\"nome\" id=\"nome\" value=\"{$aLinha['nome']}\">";
@@ -25,7 +26,6 @@ function montaCampos($aLinha) {
     echo '<br>';
     echo "<input class=\"campo\" type=\"number\" name=\"quantidade\" id=\"quantidade\" value=\"{$aLinha['quantidade']}\">";
     echo '<br>';
-
 }
 
 ?>
@@ -38,9 +38,7 @@ function montaCampos($aLinha) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alteração</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
 
     <style>
 
@@ -86,18 +84,16 @@ function montaCampos($aLinha) {
 </head>
 <body>
     
-    <div class="tampa">
-        
-    </div>
+    <div class="tampa"></div>
 
     <div class="tela">
 
         <form class="formulario" action="index.php?acao=2" method="POST">
 
-        <?php montaForm() ?>
+            <?php montaForm() ?>
 
-        <button class="botao1 btn btn-success" type="submit" >Alterar</button>
-        <a class="botao2 btn btn-danger" href="index.php">Cancelar</a>
+            <button class="botao1 btn btn-success" type="submit" >Alterar</button>
+            <a class="botao2 btn btn-danger" href="index.php">Cancelar</a>
 
         </form>
 

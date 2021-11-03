@@ -3,9 +3,12 @@
 use FFI\Exception;
 
 require_once('./Controller/controllerValidation.php');
+require_once('./SQL/sql.php');
 
+const BD_TYPE = 'mysql';
+const HOST    = 'localhost';
 const BD_NAME = 'crud';
-const USER = 'root';
+const USER    = 'root';
 
 /**
  * Executa o sql no banco de dados e trata o retorno.
@@ -16,8 +19,8 @@ function execute($sSql) {
     try {
         $oPrepare = getConnection()->prepare($sSql);
         $oPrepare->execute();
-        // $aResult = trataFetch($oPrepare->fetchAll());
         $aResult = $oPrepare->fetchAll(PDO::FETCH_ASSOC);
+        $aResult = trataFetch($aResult);
         if (count($aResult) == 0) {
             $aResult = true;
         }
@@ -37,22 +40,10 @@ function execute($sSql) {
 }
 
 /**
- * Trata o fetch do banco.
- * É necessário trata o fetch do mySql pois ele retorna duas vezes o mesmo valor mas com chaves diferentes dentro do array.
+ * Possibilita tratar o retorno do banco.
  * @return Array $aRetorno - Retorno do sql. 
  */
 function trataFetch($aFetch) {
-    $aRetorno = [];
-    $iAcumulador = 1;
-    foreach($aFetch as $iIndice => $aLinha) {
-        foreach($aLinha as $xColuna => $xValor) {
-            if ($iAcumulador%2 != 0) {
-                $aRetorno[$iIndice][$xColuna] = $xValor;
-            }
-            ++$iAcumulador;
-        }
-    }
-    return $aRetorno;
 }
 
 /**
@@ -61,7 +52,10 @@ function trataFetch($aFetch) {
  */
 function getConnection() {
     $sBdName = BD_NAME;
-    $oConnection = new PDO("mysql:host=localhost;dbname={$sBdName}",USER,'');
+    $sHost   = HOST;
+    $sBd     = BD_TYPE;
+
+    $oConnection = new PDO("{$sBd}:host={$sHost};dbname={$sBdName}",USER,'');
     //Pesquisar o pq disso akie
     $oConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -72,26 +66,14 @@ function getConnection() {
  * Função responsável por deletar o registro do código passado.
  */
 function deletaRegistro($iCodigo) {
-     execute(montaSqlDelete($iCodigo));
+    execute(montaSqlDelete($iCodigo));
 }
 
 /**
- * Reponsável por retornar o sql para excluir um registro.
+ * Retorna os dados de determinado registro.
  */
-function montaSqlDelete($iCodigo) {
-    return "delete from produto where codigo = {$iCodigo} ";
-}
-
 function getDadosLinhaFromCodigo($iCodigo) {
     return execute(getSqlDadosLinhaFromCodigo($iCodigo));
-}
-
-/**
- * Retorna o sql para pegar os dados de determinado registro.
- * @return String
- */
-function getSqlDadosLinhaFromCodigo($iCodigo) {
-    return "SELECT * FROM PRODUTO WHERE CODIGO = {$iCodigo}";
 }
 
 /**
@@ -102,38 +84,10 @@ function salvaAlteracao() {
 }
 
 /**
- * Retorna o sql para atualizar um registro.
- */
-function getSqlUpdate() {
-    $sSql = "
-    UPDATE produto SET 
-    nome       = \"{$_POST['nome'      ]}\",
-    marca      = \"{$_POST['marca'     ]}\",
-    valor      = \"{$_POST['valor'     ]}\",
-    quantidade = \"{$_POST['quantidade']}\"
-    WHERE codigo = {$_POST['codigo']}";
-    return $sSql;
-}
-
-/**
  * Responsável por salvar as informações da inclusão no banco de dados.
  */
 function salvaInclusao() {
     return execute(getSqlInsert());
-}
-
-/**
- * Retorna o sql para incluir um registro.
- */
-function getSqlInsert() {
-    $sSql = "
-    INSERT INTO `produto` (`nome`, `valor`, `marca`, `quantidade`) VALUES (
-        \"{$_POST['nome'      ]}\",
-          {$_POST['valor'     ]},
-        \"{$_POST['marca'     ]}\",
-          {$_POST['quantidade']}
-    )";
-    return $sSql;
 }
 
 /**

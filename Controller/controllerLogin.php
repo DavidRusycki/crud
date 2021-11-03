@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Função responsável por exibir a tela de login para o usuário.
+ * Exibir a tela de login para o usuário.
  */
 function exibeLogin() {
     require_once('./View/ViewLogin.php');

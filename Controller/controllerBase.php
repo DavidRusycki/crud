@@ -29,7 +29,7 @@ function getFirstFromArray($aArray) {
 }
 
 /**
- * Altera a url do usuário.
+ * Altera a url.
  */
 function alteraUrl() {  
     header("Location: index.php");

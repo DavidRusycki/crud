@@ -1,19 +1,25 @@
 <?php
-
 /**
  * Verifica se deve ou não mostrar a mensagem de erro.
  */
 function verificaMensagemErro() {
     if (isset($_SESSION) && isset($_SESSION['erroLogin']) && $_SESSION['erroLogin']) {
-        echo "
-            <div class=\"alert alert-danger\" role=\"alert\">
-                Ops :( 
-                <br>
-                Falha no Login tente novamente!
-            </div> 
-        ";
+        exibeErro();
     }
     unset($_SESSION['erroLogin']);
+}
+
+/**
+ * Exibe o erro de login.
+ */
+function exibeErro() {
+    echo "
+        <div class=\"alert alert-danger\" role=\"alert\">
+            Ops :( 
+            <br>
+            Falha no Login tente novamente!
+        </div> 
+    ";
 }
 
 ?>
@@ -26,8 +32,7 @@ function verificaMensagemErro() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
-        <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <style>
 
@@ -50,8 +55,7 @@ function verificaMensagemErro() {
 
 </head>
 <body>
-    <!-- Optional JavaScript; choose one of the two! -->
-    <!-- Option 1: Bootstrap Bundle with Popper -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <form action="?acao=4" method="POST">    
@@ -62,5 +66,6 @@ function verificaMensagemErro() {
         <br>
         <button id="botao" class="btn btn-success" type="submit" >Login</button>
     </form>
+
 </body>
 </html>

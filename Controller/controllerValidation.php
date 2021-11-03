@@ -7,9 +7,12 @@ require_once('./Controller/controllerMenu.php');
 require_once('./Controller/controllerBd.php');
 require_once('./Controller/controllerBase.php');
 
-const LOGADO = 'LOGADO';
-const USUARIO = 'USUARIO';
-const ADMIN = 'ADMINISTRATOR';
+// Constantes
+const LOGADO       = 'LOGADO';
+const USUARIO      = 'USUARIO';
+const ADMIN        = 'ADMINISTRATOR';
+const ACAO         = 'acao';
+const CODIGO       = 'codigo';
 const ACAO_LOGOUT  = 5;
 const ACAO_LOGIN   = 4;
 const ACAO_DELETAR = 3;
@@ -21,7 +24,6 @@ const ACAO_INCLUIR = 1;
  * Necessário para saber se o usuário está ou não logado e então para qual tela ele será redirecionado.
  */
 function validationInicio() {
-
     if (validaUsuarioLogado()) {
         validaAcoes();
         exibeMenu();
@@ -30,7 +32,6 @@ function validationInicio() {
         validaLogin();
         exibeLogin();
     }
-
 }
 
 /**
@@ -49,47 +50,89 @@ function validaAcoes() {
  * Realiza os tratamentos para ações GET.
  */
 function validaAcoesGet() {
-    if (isset($_GET['acao']) && isset($_GET['codigo'])) {
-        switch ($_GET['acao']) {
+    if (isset($_GET[ACAO]) && isset($_GET[CODIGO])) {
+        switch ($_GET[ACAO]) {
             case ACAO_INCLUIR:
-                require_once('./Controller/controllerInclusao.php');
-                montaTelaInclusao();
+                acaoGetIncluir();
                 break;
             case ACAO_ALTERAR:
-                require_once('./Controller/controllerAlteracao.php');
-                $_SESSION['codigoRegistro'] = $_GET['codigo'];
-                montaTelaAlteracao();
+                acaoGetAlterar();
                 break;
             case ACAO_DELETAR:
-                deletaRegistro($_GET['codigo']);
-                alteraUrl();
+                acaoGetDeletar();
                 break;
             case ACAO_LOGOUT:
-                logout();
-                alteraUrl();
+                acaoGetLogout();
                 break;
         }
     }    
 }
 
 /**
+ * Trata a acao GET de inclusão.
+ */
+function acaoGetIncluir() {
+    require_once('./Controller/controllerInclusao.php');
+    montaTelaInclusao();
+}
+
+/**
+ * Trata a acao GET de Alteração.
+ */
+function acaoGetAlterar() {
+    require_once('./Controller/controllerAlteracao.php');
+    $_SESSION['codigoRegistro'] = $_GET[CODIGO];
+    montaTelaAlteracao();
+}
+
+/**
+ * Trata a acao GET de Deletar.
+ */
+function acaoGetDeletar() {
+    deletaRegistro($_GET[CODIGO]);
+    alteraUrl();
+}
+
+/**
+ * Trata a acao GET de deslogar do sistema.
+ */
+function acaoGetLogout() {
+    logout();
+    alteraUrl();
+}
+
+/**
  * Realiza os tratamentos para ações POST.
  */
 function validaAcoesPost() {
-    if (isset($_GET['acao'])) {
-        switch ($_GET['acao']) {
+    if (isset($_GET[ACAO])) {
+        switch ($_GET[ACAO]) {
             case ACAO_INCLUIR:
-                require_once('./Controller/controllerBd.php');
-                    salvaInclusao();
-                    alteraUrl();
+                acaoPostIncluir();
                 break;
             case ACAO_ALTERAR:
-                require_once('./Controller/controllerBd.php');
-                    salvaAlteracao();
-                    alteraUrl();
+                acaoPostAlterar();
                 break;
         }
     }  
+}
+
+/**
+ * Trata a acao POST de inclusão.
+ */
+function acaoPostIncluir() {
+    require_once('./Controller/controllerBd.php');
+    salvaInclusao();
+    alteraUrl();
+}
+
+/**
+ * Trata a acao POST de alteração.
+ */
+function acaoPostAlterar() {
+    require_once('./Controller/controllerBd.php');
+    salvaAlteracao();
+    alteraUrl();
 }
 
 /**
@@ -105,8 +148,8 @@ function validaLogin() {
  * Valida o login do usuário.
  */
 function validaAcaoLogin() {
-    if (isset($_GET['acao']) && isset($_POST['usuario']) && isset($_POST['senha'])) {
-        switch ($_GET['acao']) {
+    if (isset($_GET[ACAO]) && isset($_POST['usuario']) && isset($_POST['senha'])) {
+        switch ($_GET[ACAO]) {
             case ACAO_LOGIN:
                 verificaLogin();
                 break;
@@ -128,6 +171,7 @@ function validaUsuarioLogado() {
 /**
  * Retorna se o usuário é admin.
  * @return Boolean $bRetorno - Indica se o usuário é admin.
+ * @TODO QUANDO O MÉTODO FOR ARRUMADO DEVE-SE ALTERAR O MÉTODO DE LOGOUT NO CONTROLLERLOGIN
  */
 function isAdmin() {
     $bRetorno = false;
@@ -139,7 +183,9 @@ function isAdmin() {
 }
 
 /**
- * Função para validar os dados de login
+ * Retorna os dados de login
+ * @param String $sUsuario - Usuário
+ * @param String $sSenha - Senha
  */
 function validaDados($sUsuario, $sSenha) {
     require_once('./Controller/controllerBd.php');

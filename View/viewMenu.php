@@ -16,7 +16,7 @@ function montaMenu() {
 }
 
 /**
- * Adiciona os botões nas linha das consulta.
+ * Adiciona os botões nas linhas da consulta.
  */
 function adicionaAcoes(&$aRegistros) {
     foreach($aRegistros as $indice => $aLinha) {
@@ -25,11 +25,11 @@ function adicionaAcoes(&$aRegistros) {
 }
 
 /**
- * Monta a consulta de acordo com o necessário.
+ * Monta as colunas da consulta.
  */
 function montaColunas($aRegistros) {
     echo '<thead>';
-    echo '<tr>';    
+    echo '<tr>';
     foreach(getFirstFromArray($aRegistros) as $sColuna => $xValor) {
         trataTituloColuna($sColuna);    
     }
@@ -38,7 +38,7 @@ function montaColunas($aRegistros) {
 }
 
 /**
- * Permite tratar o titulo da coluna.
+ * Permite tratar o título da coluna.
  */
 function trataTituloColuna($sColuna) {
     switch ($sColuna) {
@@ -47,8 +47,8 @@ function trataTituloColuna($sColuna) {
             break;
         
         default:
-        $sColuna = ucfirst($sColuna);
-        echo "<th scope=\"col\">{$sColuna}</th>";
+            $sColuna = ucfirst($sColuna);
+            echo "<th scope=\"col\">{$sColuna}</th>";
             break;
     }
 
@@ -76,7 +76,7 @@ function montaLinhas($aRegistros) {
 function trataLinha($sColuna, $xValor, $aLinha) {
     switch ($sColuna) {
         case 'codigo':
-        echo "<th scope=\"row\">{$xValor}</th>";
+            echo "<th scope=\"row\">{$xValor}</th>";
             break;
         
         case 'acoes':
@@ -92,7 +92,7 @@ function trataLinha($sColuna, $xValor, $aLinha) {
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="utf-8">
@@ -101,7 +101,6 @@ function trataLinha($sColuna, $xValor, $aLinha) {
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
 </head>
 
 <body>
@@ -111,9 +110,8 @@ function trataLinha($sColuna, $xValor, $aLinha) {
 
     <?php montaMenu() ?>
 
-    <!-- Optional JavaScript; choose one of the two! -->
-    <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    
 </body>
 
 </html>
