@@ -8,24 +8,33 @@ require_once('./SQL/sql.php');
  */
 function montaMenu() {
     $aRegistros = execute(getSqlConsultaProdutos());
-    adicionaAcoes($aRegistros);
-    echo '<table class="table">';
-    montaColunas($aRegistros);
-    montaLinhas($aRegistros);
-    echo '</table>';
+    if (is_array($aRegistros)) {
+        adicionaColunas($aRegistros);
+        echo '<table class="table">';
+        montaColunas($aRegistros);
+        montaLinhas($aRegistros);
+        echo '</table>';        
+    }
+    else {
+        echo '<br>';
+        echo 'Nenhum produto cadastrado.';
+    }
 }
 
 /**
  * Adiciona os botões nas linhas da consulta.
+ * @param Array $aRegistros - Registros
  */
-function adicionaAcoes(&$aRegistros) {
+function adicionaColunas(&$aRegistros) {
     foreach($aRegistros as $indice => $aLinha) {
+        $aRegistros[$indice]['total'] = 1;
         $aRegistros[$indice]['acoes'] = 1;
     }
 }
 
 /**
  * Monta as colunas da consulta.
+ * @param Array $aRegistros - Registros
  */
 function montaColunas($aRegistros) {
     echo '<thead>';
@@ -39,11 +48,15 @@ function montaColunas($aRegistros) {
 
 /**
  * Permite tratar o título da coluna.
+ * @param String $sColuna - Nome da coluna.
  */
 function trataTituloColuna($sColuna) {
     switch ($sColuna) {
         case 'codigo':
             echo "<th scope=\"col\">Código</th>";           
+            break;
+        case 'total':
+            echo "<th scope=\"col\">Valor Total</th>";           
             break;
         
         default:
@@ -72,15 +85,27 @@ function montaLinhas($aRegistros) {
 
 /**
  * Possibilita realizar um tratamento para as linhas.
+ * @param String $sColuna - Nome da coluna.
+ * @param Mixed $xValor - Valor da coluna.
+ * @param Array $aLinha - Array da linha.
  */
 function trataLinha($sColuna, $xValor, $aLinha) {
     switch ($sColuna) {
         case 'codigo':
             echo "<th scope=\"row\">{$xValor}</th>";
             break;
-        
+            
+        case 'total':
+            $iTotal = $aLinha['quantidade'] * $aLinha['valor'];
+            echo "<th scope=\"row\">R$ {$iTotal}</th>";
+            break;
+
         case 'acoes':
             echo "<td><a href=\"?codigo={$aLinha['codigo']}&acao=2\" class=\"btn btn-primary\">Alterar</a> <a href=\"?codigo={$aLinha['codigo']}&acao=3\" class=\"btn btn-danger\">Deletar</a></td>";
+            break;
+
+        case 'valor':
+            echo "<td>R$ {$xValor}</td>";
             break;
 
         default:

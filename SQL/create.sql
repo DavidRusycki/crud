@@ -11,7 +11,7 @@ CREATE TABLE `produto` (
   `codigo` int(11) NOT NULL,
   `nome` varchar(50) NOT NULL,
   `marca` varchar(30) NOT NULL,
-  `valor` decimal(6) NOT NULL,
+  `valor` decimal(6, 2) NOT NULL,
   `quantidade` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -37,7 +37,8 @@ INSERT INTO `produto` (`nome`, `valor`, `marca`, `quantidade`) VALUES
 CREATE TABLE `usuario` (
    `codigo` int(11) NOT NULL,
    `nome` varchar(50) NOT NULL,
-   `senha` varchar(1000) NOT NULL
+   `senha` varchar(1000) NOT NULL,
+   `admin` boolean not null
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Chaves
@@ -51,4 +52,4 @@ ALTER TABLE `usuario`
 
 -- Insert
 
-insert into `usuario` (codigo, nome, senha) VALUES (1, 'David', md5('batata'));
+insert into `usuario` (codigo, nome, senha, admin) VALUES (1, 'David', md5('batata'), true);

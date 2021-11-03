@@ -34,7 +34,7 @@ function execute($sSql) {
             echo '<h1>Ops! :(</h1>';
             echo '<br/>';
             echo 'Ocorreram problemas internos não esperados.';
-            throw new \Exception();
+            die();
         }
     }
 }
@@ -44,6 +44,7 @@ function execute($sSql) {
  * @return Array $aRetorno - Retorno do sql. 
  */
 function trataFetch($aFetch) {
+    return $aFetch;
 }
 
 /**
@@ -92,10 +93,12 @@ function salvaInclusao() {
 
 /**
  * Retorna o sql de validação de login.
+ * @param String $sUsuario - Usuário
+ * @param String $sSenha - Senha
  */
 function getSqlValidaLogin($sUsuario, $sSenha) {
     $sSql = "
-        SELECT 1 FROM usuario where nome = \"{$sUsuario}\" and senha = md5('{$sSenha}')
+        SELECT 1, admin FROM usuario where nome = \"{$sUsuario}\" and senha = md5('{$sSenha}')
     ";
     return $sSql;
 }

@@ -178,7 +178,6 @@ function isAdmin() {
     if (isset($_SESSION[ADMIN]) && $_SESSION[ADMIN]) {
         $bRetorno = true;
     }
-    return true;
     return $bRetorno;
 }
 
@@ -189,5 +188,7 @@ function isAdmin() {
  */
 function validaDados($sUsuario, $sSenha) {
     require_once('./Controller/controllerBd.php');
-    return execute(getSqlValidaLogin($sUsuario, $sSenha));
+    $aRetorno = execute(getSqlValidaLogin($sUsuario, $sSenha));
+    $_SESSION[ADMIN] = (bool) getFirstFromArray($aRetorno)['admin'];
+    return $aRetorno;
 }
