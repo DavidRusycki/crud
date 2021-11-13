@@ -16,7 +16,7 @@ function getSqlConsultaProdutos() {
  * @return String - SQL de delete
  */
 function montaSqlDelete($iCodigo) {
-    return "delete from produto where codigo = {$iCodigo} ";
+    return "delete from produtasdfasdfo where codigo = {$iCodigo} ";
 }
 
 /**
